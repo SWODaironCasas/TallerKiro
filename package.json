@@ -3,12 +3,35 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node dist/server.js",
+    "build": "tsc",
+    "test": "vitest run",
+    "lint": "eslint \"src/**/*.ts\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^22.15.30",
+    "@types/supertest": "^6.0.3",
+    "@typescript-eslint/eslint-plugin": "~8.39.1",
+    "@typescript-eslint/parser": "~8.39.1",
+    "eslint": "^9.28.0",
+    "fast-check": "^4.1.1",
+    "supertest": "^7.1.1",
+    "typescript": "~5.9.3",
+    "vitest": "^3.2.3"
+  },
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
@@ -16,6 +39,5 @@
       "onFail": "download"
     }
   },
-  "packageManager": "pnpm@12.22.0",
-  "type": "module"
+  "packageManager": "pnpm@12.22.0"
 }

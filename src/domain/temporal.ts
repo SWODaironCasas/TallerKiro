@@ -20,7 +20,7 @@ export function isOverdueAt(
   dueAt: Date,
   status: TicketStatus,
 ): boolean {
-  return false;
+  return now.getTime() > dueAt.getTime() && !isTerminalStatus(status);
 }
 
 export function isTicketOverdue(ticket: Pick<Ticket, 'dueAt' | 'status'>, now: Date): boolean {

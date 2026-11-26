@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Category, Priority } from '../domain/types.js';
+import type { SupervisorNotifier } from '../infrastructure/contracts.js';
 import {
   ActorRequiredError,
   ActorUnknownError,
@@ -24,22 +25,48 @@ class TestIdGenerator {
   }
 }
 
+class FailingNotificationStore extends InMemoryTicketStore {
+  override saveSupervisorNotification(): void {
+    throw new Error('notification persistence failed');
+  }
+}
+
+class FailingSupervisorNotifier implements SupervisorNotifier {
+  notify(): void {
+    throw new Error('notification delivery failed');
+  }
+}
+
+class PersistenceCheckingNotifier implements SupervisorNotifier {
+  readonly notifications: Parameters<SupervisorNotifier['notify']>[0][] = [];
+
+  constructor(private readonly store: InMemoryTicketStore) {}
+
+  notify(record: Parameters<SupervisorNotifier['notify']>[0]): void {
+    expect(this.store.listSupervisorNotifications()).toContainEqual(record);
+    this.notifications.push(record);
+  }
+}
+
 const CREATED_AT = new Date('2025-01-01T00:00:00.000Z');
 
-function createService(clock = new FixedClock(CREATED_AT)) {
-  const store = new InMemoryTicketStore();
-  const supervisorNotifier = new InMemorySupervisorNotifier();
+function createService(
+  clock = new FixedClock(CREATED_AT),
+  supervisorNotifier?: SupervisorNotifier,
+  store = new InMemoryTicketStore(),
+) {
+  const notifier = supervisorNotifier ?? new InMemorySupervisorNotifier();
 
   return {
     clock,
     store,
-    supervisorNotifier,
+    supervisorNotifier: notifier,
     service: new TicketService({
       agentDirectory: new InMemoryAgentDirectory(),
       clock,
       idGenerator: new TestIdGenerator(),
       store,
-      supervisorNotifier,
+      supervisorNotifier: notifier,
     }),
   };
 }
@@ -108,18 +135,59 @@ describe('TicketService creation and queries', () => {
     expect(ticket.dueAt).toEqual(new Date('2025-01-01T08:00:00.000Z'));
   });
 
-  it('evaluates overdue state before returning a ticket from get', () => {
-    const clock = new FixedClock(CREATED_AT);
-    const { service } = createService(clock);
-    const created = service.create(createInput('ACCESOS', 'CRITICA'));
+  it.each([
+    ['CRITICA', 4],
+    ['ALTA', 8],
+    ['MEDIA', 24],
+    ['BAJA', 72],
+  ] as const)('calculates dueAt from the %s resolution SLA', (priority, hours) => {
+    const { service } = createService();
 
+    const ticket = service.create(createInput('ACCESOS', priority));
+
+    expect(ticket.dueAt).toEqual(
+      new Date(CREATED_AT.getTime() + hours * 60 * 60 * 1_000),
+    );
+  });
+
+  it('evaluates overdue tickets in list and before a mutating assignment returns', () => {
+    const clock = new FixedClock(CREATED_AT);
+    const { service, store } = createService(clock);
+    const created = service.create(createInput('ACCESOS', 'CRITICA'));
     clock.set(new Date('2025-01-01T04:00:00.001Z'));
 
-    expect(service.get(created.id)).toMatchObject({
+    expect(service.list()).toEqual([
+      expect.objectContaining({ id: created.id, overdue: true }),
+    ]);
+
+    const assigned = service.assign(created.id, 'agent-1', 'supervisor-1');
+
+    expect(assigned).toMatchObject({
       id: created.id,
+      status: 'ASIGNADO',
       overdue: true,
-      overdueCycle: 1,
+      escalations: [{ ticketId: created.id, cycle: 1 }],
+      supervisorNotifications: [{ ticketId: created.id, cycle: 1 }],
     });
+    expect(store.get(created.id)).toEqual(assigned);
+  });
+
+  it('persists the notification before notifying and returns the final stored state', () => {
+    const clock = new FixedClock(CREATED_AT);
+    const store = new InMemoryTicketStore();
+    const notifier = new PersistenceCheckingNotifier(store);
+    const { service } = createService(clock, notifier, store);
+    const created = service.create(createInput('ACCESOS', 'CRITICA'));
+    clock.set(new Date('2025-01-01T04:00:00.001Z'));
+
+    const evaluated = service.get(created.id);
+
+    expect(evaluated).toEqual(store.get(created.id));
+    expect(store.listSupervisorNotifications(created.id)).toHaveLength(1);
+    expect(notifier.notifications).toHaveLength(1);
+    expect(notifier.notifications[0]).toEqual(
+      store.listSupervisorNotifications(created.id)[0],
+    );
   });
 
   it('evaluates overdue state before applying AND filters in list', () => {
@@ -206,6 +274,56 @@ describe('TicketService creation and queries', () => {
     });
   });
 
+
+  it('rejects an invalid Clock date without changing the ticket or event history', () => {
+    let current = CREATED_AT;
+    const clock = { now: () => current };
+    const { service, store, supervisorNotifier } = createService(clock);
+    const created = service.create(createInput('ACCESOS', 'CRITICA'));
+    const before = snapshotStore(store, supervisorNotifier);
+    current = new Date(Number.NaN);
+
+    expect(() => service.get(created.id)).toThrow(InvalidRequestError);
+    expect(snapshotStore(store, supervisorNotifier)).toEqual(before);
+  });
+
+  it('propagates Store failures before notifying the supervisor', () => {
+    const clock = new FixedClock(CREATED_AT);
+    const store = new FailingNotificationStore();
+    const supervisorNotifier = new InMemorySupervisorNotifier();
+    const service = new TicketService({
+      agentDirectory: new InMemoryAgentDirectory(),
+      clock,
+      idGenerator: new TestIdGenerator(),
+      store,
+      supervisorNotifier,
+    });
+    const created = service.create(createInput('ACCESOS', 'CRITICA'));
+    clock.set(new Date('2025-01-01T04:00:00.001Z'));
+
+    expect(() => service.get(created.id)).toThrow('notification persistence failed');
+    expect(store.listSupervisorNotifications()).toEqual([]);
+    expect(supervisorNotifier.list()).toEqual([]);
+  });
+
+  it('keeps a persisted notification when Notifier delivery fails', () => {
+    const clock = new FixedClock(CREATED_AT);
+    const store = new InMemoryTicketStore();
+    const service = new TicketService({
+      agentDirectory: new InMemoryAgentDirectory(),
+      clock,
+      idGenerator: new TestIdGenerator(),
+      store,
+      supervisorNotifier: new FailingSupervisorNotifier(),
+    });
+    const created = service.create(createInput('ACCESOS', 'CRITICA'));
+    clock.set(new Date('2025-01-01T04:00:00.001Z'));
+
+    expect(() => service.get(created.id)).toThrow('notification delivery failed');
+    expect(store.listEscalations(created.id)).toHaveLength(1);
+    expect(store.listSupervisorNotifications(created.id)).toHaveLength(1);
+    expect(store.get(created.id)).toMatchObject({ overdue: true });
+  });
 
   it('throws when getting a ticket that does not exist', () => {
     const { service } = createService();
@@ -462,5 +580,155 @@ describe('TicketService overdue evaluation', () => {
     expect(store.listEscalations(created.id)).toHaveLength(2);
     expect(store.listSupervisorNotifications(created.id)).toHaveLength(2);
     expect(supervisorNotifier.list()).toHaveLength(2);
+  });
+});
+
+
+describe('TicketService terminal lifecycle and reopening', () => {
+  it('preserves a non-overdue terminal ticket without creating expiry events', () => {
+    const clock = new FixedClock(CREATED_AT);
+    const { service, store, supervisorNotifier } = createService(clock);
+    const created = service.create(createInput('ACCESOS', 'CRITICA'));
+
+    service.assign(created.id, 'agent-1', 'supervisor-1');
+    service.changeStatus(created.id, 'EN_PROGRESO', undefined, 'agent-1');
+    const resolved = service.changeStatus(
+      created.id,
+      'RESUELTO',
+      'Resolved before SLA deadline',
+      'agent-1',
+    );
+
+    expect(resolved).toMatchObject({
+      status: 'RESUELTO',
+      overdue: false,
+      overdueCycle: 1,
+      escalations: [],
+      supervisorNotifications: [],
+    });
+    expect(store.listEscalations(created.id)).toEqual([]);
+    expect(store.listSupervisorNotifications(created.id)).toEqual([]);
+    expect(supervisorNotifier.listNotifications()).toEqual([]);
+
+    const closed = service.changeStatus(
+      created.id,
+      'CERRADO',
+      undefined,
+      'supervisor-1',
+    );
+
+    expect(closed).toMatchObject({
+      status: 'CERRADO',
+      overdue: false,
+      overdueCycle: 1,
+      escalations: [],
+      supervisorNotifications: [],
+    });
+  });
+
+  it('preserves expiry events when a ticket is terminalized after its deadline', () => {
+    const clock = new FixedClock(CREATED_AT);
+    const { service, store, supervisorNotifier } = createService(clock);
+    const created = service.create(createInput('ACCESOS', 'CRITICA'));
+    clock.set(new Date('2025-01-01T04:00:00.001Z'));
+
+    const overdue = service.get(created.id);
+    const escalation = overdue.escalations[0];
+    const notification = overdue.supervisorNotifications[0];
+    service.assign(created.id, 'agent-1', 'supervisor-1');
+    service.changeStatus(created.id, 'EN_PROGRESO', undefined, 'agent-1');
+
+    const resolved = service.changeStatus(
+      created.id,
+      'RESUELTO',
+      'Resolved after SLA deadline',
+      'supervisor-1',
+    );
+    const closed = service.changeStatus(
+      created.id,
+      'CERRADO',
+      undefined,
+      'supervisor-1',
+    );
+
+    expect(resolved).toMatchObject({
+      status: 'RESUELTO',
+      overdue: true,
+      overdueCycle: 1,
+      escalations: [escalation],
+      supervisorNotifications: [notification],
+    });
+    expect(closed).toMatchObject({
+      status: 'CERRADO',
+      overdue: true,
+      overdueCycle: 1,
+      escalations: [escalation],
+      supervisorNotifications: [notification],
+    });
+    expect(store.listEscalations(created.id)).toHaveLength(1);
+    expect(store.listSupervisorNotifications(created.id)).toHaveLength(1);
+    expect(supervisorNotifier.listNotifications()).toHaveLength(1);
+  });
+
+  it.each([
+    ['RESUELTO', 'agent-1'],
+    ['CERRADO', 'supervisor-1'],
+  ] as const)('reopens a %s ticket into a new cycle and preserves prior events', (terminalStatus, reopenActor) => {
+    const clock = new FixedClock(CREATED_AT);
+    const { service, store, supervisorNotifier } = createService(clock);
+    const created = service.create(createInput('ACCESOS', 'CRITICA'));
+    clock.set(new Date('2025-01-01T04:00:00.001Z'));
+
+    service.get(created.id);
+    service.assign(created.id, 'agent-1', 'supervisor-1');
+    service.changeStatus(created.id, 'EN_PROGRESO', undefined, 'agent-1');
+    service.changeStatus(
+      created.id,
+      'RESUELTO',
+      'Initial resolution',
+      'agent-1',
+    );
+    if (terminalStatus === 'CERRADO') {
+      service.changeStatus(created.id, 'CERRADO', undefined, 'supervisor-1');
+    }
+
+    const beforeReopening = service.get(created.id);
+    const firstCycleEscalation = beforeReopening.escalations[0];
+    const firstCycleNotification = beforeReopening.supervisorNotifications[0];
+    const reopened = service.changeStatus(
+      created.id,
+      'EN_PROGRESO',
+      undefined,
+      reopenActor,
+    );
+
+    expect(reopened).toMatchObject({
+      status: 'EN_PROGRESO',
+      overdue: false,
+      overdueCycle: 2,
+      escalations: [firstCycleEscalation],
+      supervisorNotifications: [firstCycleNotification],
+    });
+
+    const secondCycle = service.get(created.id);
+    expect(secondCycle).toMatchObject({
+      overdue: true,
+      overdueCycle: 2,
+      escalations: [
+        firstCycleEscalation,
+        expect.objectContaining({ ticketId: created.id, cycle: 2 }),
+      ],
+      supervisorNotifications: [
+        firstCycleNotification,
+        expect.objectContaining({ ticketId: created.id, cycle: 2 }),
+      ],
+    });
+    expect(store.listEscalations(created.id)).toHaveLength(2);
+    expect(store.listSupervisorNotifications(created.id)).toHaveLength(2);
+    expect(supervisorNotifier.listNotifications()).toHaveLength(2);
+    expect(store.listHistory(created.id).at(-1)).toMatchObject({
+      from: terminalStatus,
+      to: 'EN_PROGRESO',
+    });
   });
 });

@@ -141,6 +141,62 @@ describe('InMemoryTicketStore', () => {
     );
   });
 
+  it('isolates history records on save and read', () => {
+    const store = new InMemoryTicketStore();
+    const entry = {
+      sequence: 1,
+      ticketId: 'ticket-1',
+      from: 'NUEVO' as const,
+      to: 'EN_PROGRESO' as const,
+      changedAt: new Date('2025-01-01T02:00:00.000Z'),
+      actorId: 'agent-1',
+    };
+
+    store.saveHistory(entry);
+    entry.changedAt.setUTCDate(2);
+    entry.actorId = 'mutated-input';
+
+    const observed = store.listHistory('ticket-1');
+    observed[0].changedAt.setUTCDate(3);
+    observed[0].actorId = 'mutated-copy';
+
+    expect(store.listHistory('ticket-1')).toEqual([
+      {
+        ...entry,
+        changedAt: new Date('2025-01-01T02:00:00.000Z'),
+        actorId: 'agent-1',
+      },
+    ]);
+  });
+
+  it('partitions tickets and event records by ticket id', () => {
+    const store = new InMemoryTicketStore();
+
+    store.save(makeTicket({ id: 'ticket-1' }));
+    store.save(makeTicket({ id: 'ticket-2' }));
+    store.saveEscalation(makeEscalation({ ticketId: 'ticket-1', cycle: 1 }));
+    store.saveEscalation(makeEscalation({ ticketId: 'ticket-2', cycle: 2 }));
+    store.saveSupervisorNotification(
+      makeNotification({ ticketId: 'ticket-1', cycle: 1 }),
+    );
+    store.saveSupervisorNotification(
+      makeNotification({ ticketId: 'ticket-2', cycle: 2 }),
+    );
+
+    expect(store.listEscalations('ticket-1')).toEqual([
+      makeEscalation({ ticketId: 'ticket-1', cycle: 1 }),
+    ]);
+    expect(store.listEscalations('ticket-2')).toEqual([
+      makeEscalation({ ticketId: 'ticket-2', cycle: 2 }),
+    ]);
+    expect(store.listSupervisorNotifications('ticket-1')).toEqual([
+      makeNotification({ ticketId: 'ticket-1', cycle: 1 }),
+    ]);
+    expect(store.listSupervisorNotifications('ticket-2')).toEqual([
+      makeNotification({ ticketId: 'ticket-2', cycle: 2 }),
+    ]);
+  });
+
   it('keeps two store instances isolated, including SLA event collections', () => {
     const first = new InMemoryTicketStore();
     const second = new InMemoryTicketStore();

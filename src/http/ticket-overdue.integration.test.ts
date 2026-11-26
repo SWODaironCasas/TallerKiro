@@ -6,6 +6,7 @@ import {
   InMemorySupervisorNotifier,
   InMemoryTicketStore,
   type IdGenerator,
+  type SupervisorNotifier,
 } from '../infrastructure/index.js';
 import { FixedClock, requestAgainstApp } from '../test-utils/index.js';
 
@@ -25,6 +26,15 @@ interface TestContext {
   clock: FixedClock;
   store: InMemoryTicketStore;
   supervisorNotifier: InMemorySupervisorNotifier;
+}
+
+class FailingSupervisorNotifier implements SupervisorNotifier {
+  readonly emitted: string[] = [];
+
+  notify(record: { ticketId: string }): void {
+    this.emitted.push(record.ticketId);
+    throw new Error('supervisor notifier unavailable');
+  }
 }
 
 function createTestContext(): TestContext {
@@ -318,5 +328,108 @@ describe('SLA and GET /tickets/overdue integration', () => {
     expect(store.listEscalations(ticket.id)[1]?.cycle).toBe(2);
     expect(store.listSupervisorNotifications(ticket.id)[0]?.cycle).toBe(1);
     expect(store.listSupervisorNotifications(ticket.id)[1]?.cycle).toBe(2);
+  });
+
+  it('returns the existing HTTP error contracts for listOverdue authorization and validation failures', async () => {
+    const { client } = createTestContext();
+
+    const missingActor = await client.get('/tickets/overdue');
+    expect(missingActor.status).toBe(403);
+    expect(missingActor.body).toEqual({
+      error: expect.objectContaining({ code: 'SUPERVISOR_REQUIRED' }),
+    });
+
+    const unknownActor = await client
+      .get('/tickets/overdue')
+      .set('X-Actor-Id', 'unknown-actor');
+    expect(unknownActor.status).toBe(403);
+    expect(unknownActor.body).toEqual({
+      error: expect.objectContaining({ code: 'SUPERVISOR_REQUIRED' }),
+    });
+
+    const invalidCategory = await client
+      .get('/tickets/overdue')
+      .query({ category: 'INVALID' })
+      .set('X-Actor-Id', SUPERVISOR);
+    expect(invalidCategory.status).toBe(400);
+    expect(invalidCategory.body).toEqual({
+      error: expect.objectContaining({ code: 'INVALID_REQUEST' }),
+    });
+  });
+
+  it('persists the notification before invoking the supervisor notifier', async () => {
+    const clock = new FixedClock(BASE_TIME);
+    const store = new InMemoryTicketStore();
+    let nextId = 0;
+    const observedPersistedCounts: number[] = [];
+    const notifier: SupervisorNotifier = {
+      notify: (record) => {
+        observedPersistedCounts.push(
+          store.listSupervisorNotifications(record.ticketId).length,
+        );
+      },
+    };
+    const client = requestAgainstApp(
+      createApp({
+        store,
+        clock,
+        idGenerator: { next: () => `ticket-${++nextId}` },
+        agentDirectory: new InMemoryAgentDirectory(),
+        supervisorNotifier: notifier,
+      }),
+    );
+    const ticket = await createTicket(client);
+    const breachAt = new Date(new Date(ticket.dueAt).getTime() + 1);
+    clock.set(breachAt);
+
+    const response = await client
+      .get('/tickets/overdue')
+      .set('X-Actor-Id', SUPERVISOR);
+
+    expect(response.status).toBe(200);
+    expect(observedPersistedCounts).toEqual([1]);
+    expect(store.listSupervisorNotifications(ticket.id)).toHaveLength(1);
+  });
+
+  it('keeps the persisted event and does not duplicate notification after notifier failure', async () => {
+    const clock = new FixedClock(BASE_TIME);
+    const store = new InMemoryTicketStore();
+    const notifier = new FailingSupervisorNotifier();
+    let nextId = 0;
+    const client = requestAgainstApp(
+      createApp({
+        store,
+        clock,
+        idGenerator: { next: () => `ticket-${++nextId}` },
+        agentDirectory: new InMemoryAgentDirectory(),
+        supervisorNotifier: notifier,
+      }),
+    );
+    const ticket = await createTicket(client);
+    clock.set(new Date(new Date(ticket.dueAt).getTime() + 1));
+
+    const firstAttempt = await client
+      .get('/tickets/overdue')
+      .set('X-Actor-Id', SUPERVISOR);
+    expect(firstAttempt.status).toBe(500);
+    expect(firstAttempt.body).toEqual({
+      error: expect.objectContaining({ code: 'INTERNAL_ERROR' }),
+    });
+
+    const secondAttempt = await client
+      .get('/tickets/overdue')
+      .set('X-Actor-Id', SUPERVISOR);
+    expect(secondAttempt.status).toBe(200);
+    expect(secondAttempt.body[0]).toEqual(
+      expect.objectContaining({
+        id: ticket.id,
+        overdue: true,
+        escalations: [expect.objectContaining({ cycle: 1 })],
+        supervisorNotifications: [expect.objectContaining({ cycle: 1 })],
+      }),
+    );
+    expect(store.listEscalations(ticket.id)).toHaveLength(1);
+    expect(store.listSupervisorNotifications(ticket.id)).toHaveLength(1);
+    expect(notifier.emitted).toEqual([ticket.id]);
   });
 });

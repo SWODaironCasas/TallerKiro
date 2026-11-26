@@ -102,7 +102,7 @@ export class TicketService {
     const title = input.title.trim();
     const description = input.description.trim();
     const requester = input.requester.trim();
-    const createdAt = this.clock.now();
+    const createdAt = this.currentTime();
 
     const ticket: Ticket = {
       id: this.idGenerator.next(),
@@ -140,7 +140,7 @@ export class TicketService {
       throw new AgentUnavailableError();
     }
 
-    const now = this.clock.now();
+    const now = this.currentTime();
     const evaluatedTicket = this.evaluateAndSave(ticket, now);
     const previousStatus = evaluatedTicket.status;
     const changesStatus = previousStatus === 'NUEVO';
@@ -180,7 +180,7 @@ export class TicketService {
     }
 
     if (isNoOpTransition(ticket.status, target)) {
-      return this.evaluateAndSave(ticket, this.clock.now());
+      return this.evaluateAndSave(ticket, this.currentTime());
     }
 
     if (!isAllowedTransition(ticket.status, target)) {
@@ -203,7 +203,7 @@ export class TicketService {
       throw new InvalidTransitionError();
     }
 
-    const now = this.clock.now();
+    const now = this.currentTime();
     const evaluatedTicket = this.evaluateAndSave(ticket, now);
     const reopened = isReopenTransition(evaluatedTicket.status, target);
     let updatedTicket = reopened
@@ -251,7 +251,7 @@ export class TicketService {
   }
 
   list(filters: TicketFilters = {}): Ticket[] {
-    const now = this.clock.now();
+    const now = this.currentTime();
 
     return this.store
       .list()
@@ -265,7 +265,7 @@ export class TicketService {
       throw new TicketNotFoundError(id);
     }
 
-    return this.evaluateAndSave(ticket, this.clock.now());
+    return this.evaluateAndSave(ticket, this.currentTime());
   }
 
   history(id: string): StateHistoryEntry[] {
@@ -278,7 +278,7 @@ export class TicketService {
 
   listOverdue(category?: Category, supervisorId?: string): Ticket[] {
     this.requireSupervisor(supervisorId);
-    const now = this.clock.now();
+    const now = this.currentTime();
 
     return this.store
       .list()
@@ -293,6 +293,15 @@ export class TicketService {
   /** Compatibility alias for the application design's overdue use case name. */
   overdue(category?: Category, supervisorId?: string): Ticket[] {
     return this.listOverdue(category, supervisorId);
+  }
+
+  private currentTime(): Date {
+    const now = this.clock.now();
+    if (!(now instanceof Date) || !Number.isFinite(now.getTime())) {
+      throw new InvalidRequestError('Clock returned an invalid Date');
+    }
+
+    return new Date(now);
   }
 
   private resolveActor(actorId: string) {
@@ -339,24 +348,20 @@ export class TicketService {
         .listSupervisorNotifications(ticket.id)
         .map((record) => record.cycle),
     );
-    const previousNotificationCycles = new Set(
-      ticket.supervisorNotifications.map((record) => record.cycle),
-    );
+    const existingEventCycles = new Set([
+      ...storedEscalationCycles,
+      ...storedNotificationCycles,
+    ]);
 
     this.store.save(evaluated);
     for (const escalation of evaluated.escalations) {
-      if (!storedEscalationCycles.has(escalation.cycle)) {
+      if (!existingEventCycles.has(escalation.cycle)) {
         this.store.saveEscalation(escalation);
       }
     }
     for (const notification of evaluated.supervisorNotifications) {
-      if (!storedNotificationCycles.has(notification.cycle)) {
+      if (!existingEventCycles.has(notification.cycle)) {
         this.store.saveSupervisorNotification(notification);
-      }
-      if (
-        !previousNotificationCycles.has(notification.cycle) &&
-        !storedNotificationCycles.has(notification.cycle)
-      ) {
         this.supervisorNotifier.notify(notification);
       }
     }

@@ -2,6 +2,7 @@ import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import type { Category, Priority, Ticket, TicketStatus } from '../domain/types.js';
 import { InMemoryAgentDirectory } from '../infrastructure/in-memory-agent-directory.js';
+import { InMemorySupervisorNotifier } from '../infrastructure/in-memory-supervisor-notifier.js';
 import { InMemoryTicketStore } from '../infrastructure/in-memory-ticket-store.js';
 import { FixedClock } from '../test-utils/index.js';
 import { TicketService, type CreateTicketInput } from './ticket-service.js';
@@ -53,14 +54,16 @@ class TestIdGenerator {
 
 function createService(clock: FixedClock) {
   const store = new InMemoryTicketStore();
+  const supervisorNotifier = new InMemorySupervisorNotifier();
   const service = new TicketService({
     agentDirectory: new InMemoryAgentDirectory(),
     clock,
     idGenerator: new TestIdGenerator(),
     store,
+    supervisorNotifier,
   });
 
-  return { service, store };
+  return { service, store, supervisorNotifier };
 }
 
 function prepareTicket(
@@ -158,6 +161,77 @@ describe('TicketService Property 8: no-op and history invariants', () => {
           });
           expect(store.listHistory(before.id)).toEqual(historyBefore);
           expect(store.listHistory(before.id)).toHaveLength(historyBefore.length);
+        },
+      ),
+      { numRuns: 100 },
+    );
+  });
+});
+
+
+describe('TicketService Property 3: idempotent overdue evaluation', () => {
+  it('records and emits at most one event pair per ticket and cycle', () => {
+    // Feature: ticket-expiry-supervisor-notifications, Property 3: La evaluación es idempotente por (ticketId, cycle).
+    fc.assert(
+      fc.property(
+        ticketInputArbitrary,
+        fc.array(fc.constant(undefined), { minLength: 1, maxLength: 10 }),
+        fc.boolean(),
+        (input, evaluations, hasPreexistingRecords) => {
+          const clock = new FixedClock(CREATED_AT);
+          const { service, store, supervisorNotifier } = createService(clock);
+          const created = service.create(input);
+          clock.set(new Date('2025-01-10T00:00:00.001Z'));
+          const dueTicket = store.get(created.id) as Ticket;
+          const notifiedAt = clock.now();
+
+          if (hasPreexistingRecords) {
+            const escalation = {
+              ticketId: created.id,
+              cycle: dueTicket.overdueCycle,
+              escalatedAt: notifiedAt,
+              notifiedAt,
+            };
+            const notification = {
+              ticketId: created.id,
+              cycle: dueTicket.overdueCycle,
+              notifiedAt,
+            };
+            store.save({
+              ...dueTicket,
+              overdue: true,
+              escalations: [escalation],
+              supervisorNotifications: [notification],
+            });
+            store.saveEscalation(escalation);
+            store.saveSupervisorNotification(notification);
+          }
+
+          for (let evaluationIndex = 0; evaluationIndex < evaluations.length; evaluationIndex += 1) {
+            service.get(created.id);
+          }
+
+          expect(store.listEscalations(created.id)).toHaveLength(1);
+          expect(store.listSupervisorNotifications(created.id)).toHaveLength(1);
+          expect(supervisorNotifier.listNotifications()).toHaveLength(
+            hasPreexistingRecords ? 0 : 1,
+          );
+          expect(store.get(created.id)).toMatchObject({
+            overdue: true,
+            overdueCycle: dueTicket.overdueCycle,
+            escalations: [
+              expect.objectContaining({
+                ticketId: created.id,
+                cycle: dueTicket.overdueCycle,
+              }),
+            ],
+            supervisorNotifications: [
+              expect.objectContaining({
+                ticketId: created.id,
+                cycle: dueTicket.overdueCycle,
+              }),
+            ],
+          });
         },
       ),
       { numRuns: 100 },

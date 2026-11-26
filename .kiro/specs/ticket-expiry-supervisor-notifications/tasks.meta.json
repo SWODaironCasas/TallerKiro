@@ -1,0 +1,496 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 Revisar `src/domain/temporal.ts` y conservar o ajustar únicamente lo necesario para que `isOverdueAt` use la comparación estricta `now > dueAt`, excluya `RESUELTO` y `CERRADO`, y `evaluateOverdueCycle` devuelva copias sin mutar la entrada.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656316373
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656325560
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656396407
+      }
+    ],
+    "1.2 Añadir o completar pruebas unitarias de `src/domain/temporal.test.ts` para los casos anterior, igual y posterior a `dueAt`, estados terminales, preservación de eventos y copias profundas.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656316539
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656402894
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656512251
+      }
+    ],
+    "1.3 Escribir la prueba property-based de la **Property 1: Vencimiento estricto y exclusión de estados terminales** en un archivo de propiedad dedicado, con generadores de Tickets válidos, estados e instantes antes, iguales y después de `dueAt`.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656316673
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656403721
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656513055
+      }
+    ],
+    "1.4 Escribir la prueba property-based de la **Property 2: El primer vencimiento crea un par coherente** sobre `evaluateOverdueCycle`.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656316837
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656520200
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656590119
+      }
+    ],
+    "1.5 Punto de control: ejecutar las pruebas unitarias y property-based del dominio y corregir cualquier fallo antes de continuar.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656317074
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656594264
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656625054
+      }
+    ],
+    "2.1 Revisar `src/application/ticket-service.ts` y conservar o ajustar `evaluateAndSave` para que obtenga el instante desde `Clock`, evalúe la copia del Ticket, consulte registros por `(ticketId, cycle)`, persista antes de notificar y devuelva una copia final del Store.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656317193
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656404554
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656513481
+      }
+    ],
+    "2.2 Añadir o completar pruebas unitarias de `TicketService` para creación con `dueAt` proveniente del SLA, evaluación en operaciones de lectura y mutación, persistencia previa a `notify` y retorno del estado final almacenado.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656317307
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656630657
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656732928
+      }
+    ],
+    "2.3 Escribir la prueba property-based de la **Property 3: La evaluación es idempotente por `(ticketId, cycle)`** sobre secuencias de evaluaciones del mismo Ticket vencido.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656317429
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656630864
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656733243
+      }
+    ],
+    "2.4 Escribir la prueba property-based de la **Property 7: El instante inyectado gobierna el cálculo y los registros** usando un `Clock` controlado y distintos instantes válidos.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656317567
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656631130
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656734234
+      }
+    ],
+    "3.1 Revisar `src/infrastructure/in-memory-ticket-store.ts` y conservar o completar las copias defensivas de Tickets, fechas, colecciones, historial, escalamientos y notificaciones en `save`, `get`, `list` y consultas de eventos.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656317723
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656325828
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656396838
+      }
+    ],
+    "3.2 Revisar `src/infrastructure/in-memory-supervisor-notifier.ts` y conservar o completar la copia aislada de cada registro recibido y de cada lectura inspeccionable.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656317890
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656326063
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656397200
+      }
+    ],
+    "3.3 Añadir o completar pruebas unitarias de `InMemoryTicketStore` y `InMemorySupervisorNotifier` para mutaciones de entradas y salidas, fechas anidadas, separación entre Tickets y conservación de registros.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656318035
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656404894
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656514160
+      }
+    ],
+    "3.4 Escribir la prueba property-based de la **Property 4: La evaluación no muta la entrada** para Tickets con fechas y registros anidados.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656318166
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656520465
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656590774
+      }
+    ],
+    "3.5 Escribir la prueba property-based de la **Property 5: El Store aísla y particiona por Ticket** usando múltiples `ticketId`, ciclos y lecturas mutadas.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656318274
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656520704
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656591028
+      }
+    ],
+    "4.1 Revisar `changeStatus` y `startOverdueCycle` para que la resolución y el cierre conserven `overdue` e historial, mientras que `RESUELTO -> EN_PROGRESO` y `CERRADO -> EN_PROGRESO` incrementen el ciclo, reinicien `overdue` y conserven eventos de ciclos anteriores.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656318387
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656738426
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656776742
+      }
+    ],
+    "4.2 Añadir o completar pruebas unitarias e integración de `TicketService` para terminalización antes y después del vencimiento, reapertura desde ambos estados terminales, nuevo vencimiento y conservación histórica.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656318607
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656779937
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656864355
+      }
+    ],
+    "4.3 Escribir la prueba property-based de la **Property 6: La reapertura conserva la historia e inicia un ciclo** para Tickets terminales con eventos históricos.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656318706
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656781012
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656864589
+      }
+    ],
+    "5.1 Revisar `src/http/mappers.ts` y conservar o ajustar únicamente lo necesario para exponer `overdue`, `overdueCycle`, colecciones vacías, identificadores, ciclos y todos los instantes mediante ISO UTC sin recalcular ni mutar los datos.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656318795
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656326332
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656397436
+      }
+    ],
+    "5.2 Añadir o completar pruebas unitarias de los mappers para fechas con milisegundos, colecciones vacías, múltiples eventos, ciclos e identificadores sin alteración.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656318919
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656405107
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656515020
+      }
+    ],
+    "5.3 Escribir la prueba property-based de la **Property 8: La serialización conserva identidad, ciclos y tiempo** para Tickets con cero o más eventos válidos.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656319024
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656520924
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656591497
+      }
+    ],
+    "5.4 Añadir o completar pruebas de integración HTTP para consultar Tickets antes, en y después de `dueAt`, comprobar fechas ISO UTC, campos de vencimiento, registros completos y colecciones vacías.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656319156
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656781262
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656865923
+      }
+    ],
+    "6.1 Revisar las fronteras de `TicketService`, `Clock`, Store y Notifier para propagar `TicketNotFoundError`, errores de transición, validación de actor, autorización de Supervisor y Clock inválido sin sustituir valores ni persistir efectos antes de la validación.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656319386
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656521256
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656591794
+      }
+    ],
+    "6.2 Añadir o completar pruebas unitarias para Ticket inexistente, Clock inválido, actor o Supervisor inválido, agente inactivo, transición inválida, nota de resolución ausente y fallos del Store o Notifier.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656319549
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656631364
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656735621
+      }
+    ],
+    "6.3 Añadir o completar pruebas de integración para autorización de `listOverdue`, errores HTTP, persistencia antes de notificar y ausencia de duplicados después de un fallo del Notifier.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656319674
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656781526
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656866452
+      }
+    ],
+    "6.4 Punto de control: ejecutar las pruebas de dominio, aplicación, infraestructura y HTTP; resolver regresiones antes de la verificación final.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656319804
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656868754
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656920637
+      }
+    ],
+    "7.1 Ejecutar la suite completa con `pnpm test`, la compilación con `pnpm build` y el lint con `pnpm lint`, y corregir únicamente fallos relacionados con esta feature.": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656319947
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656923671
+      },
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795657053399
+      }
+    ],
+    "3. Verificar persistencia defensiva en memoria": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656591248
+      }
+    ],
+    "1. Verificar y completar la regla temporal de dominio": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656625314
+      }
+    ],
+    "2. Coordinar `TicketService` con Clock, Store y Notifier": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656734433
+      }
+    ],
+    "4. Implementar y probar ciclos, estados terminales y reapertura": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656864848
+      }
+    ],
+    "5. Mantener la serialización HTTP y probar el contrato externo": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656866223
+      }
+    ],
+    "6. Completar manejo de errores y ausencia de efectos parciales": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795656920880
+      }
+    ],
+    "7. Verificación final del código integrado": [
+      {
+        "executionId": "4ce0dc0b-d91d-4593-bf66-2c7ff228b249",
+        "chatSessionId": "sess_1ad976f0-7e94-41d6-b472-1439f811dc67",
+        "timestamp": 1795657053633
+      }
+    ]
+  }
+}

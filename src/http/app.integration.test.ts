@@ -26,6 +26,24 @@ const VALID_TICKET = {
   requester: 'user-123',
 };
 
+const PANEL_ASSETS = [
+  {
+    path: '/panel/',
+    contentType: /html/,
+    marker: 'TicketOps Panel de tickets',
+  },
+  {
+    path: '/panel/panel.css',
+    contentType: /css/,
+    marker: 'TicketOps Panel',
+  },
+  {
+    path: '/panel/panel.js',
+    contentType: /javascript/,
+    marker: 'createTicketOpsPanel',
+  },
+] as const;
+
 function sourceFiles(directory: string): string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const path = resolve(directory, entry.name);
@@ -38,6 +56,48 @@ function sourceFiles(directory: string): string[] {
       : [];
   });
 }
+
+describe('same-origin panel static mount', () => {
+  it.each(PANEL_ASSETS)('serves $path with its expected content type', async ({
+    path,
+    contentType,
+    marker,
+  }) => {
+    const response = await request(createApp()).get(path);
+
+    expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toMatch(contentType);
+    expect(response.text).toContain(marker);
+  });
+
+  it.each([
+    '/panel/%2e%2e/package.json',
+    '/panel/%2e%2e/%2e%2e/package.json',
+  ])('does not allow traversal from %s', async (path) => {
+    const response = await request(createApp()).get(path);
+
+    expect([400, 404]).toContain(response.status);
+    expect(response.text).not.toContain('"dependencies"');
+    expect(response.text).not.toContain('"scripts"');
+  });
+
+  it('coexists with the service root, health check, and ticket collection', async () => {
+    const application = createApp();
+
+    const [root, health, tickets] = await Promise.all([
+      request(application).get('/'),
+      request(application).get('/health'),
+      request(application).get('/tickets'),
+    ]);
+
+    expect(root.status).toBe(200);
+    expect(root.body).toMatchObject({ name: 'TicketOps API', status: 'ok' });
+    expect(health.status).toBe(200);
+    expect(health.body).toEqual({ status: 'ok' });
+    expect(tickets.status).toBe(200);
+    expect(tickets.body).toEqual([]);
+  });
+});
 
 describe('application startup and service information', () => {
   it('returns the service name, status, and complete required route catalog', async () => {

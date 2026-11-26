@@ -11,6 +11,7 @@
     "start": "node dist/server.js",
     "build": "tsc",
     "test": "vitest run",
+    "test:browser": "playwright test --config=playwright.config.ts --reporter=list",
     "lint": "eslint \"src/**/*.ts\""
   },
   "keywords": [],
@@ -21,6 +22,7 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.1",
     "@types/express": "^5.0.3",
     "@types/node": "^22.15.30",
     "@types/supertest": "^6.0.3",

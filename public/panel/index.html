@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TicketOps Panel de tickets</title>
+    <link rel="stylesheet" href="./panel.css">
+  </head>
+  <body>
+    <header class="panel-header">
+      <div class="header-content">
+        <p class="eyebrow">Operaciones</p>
+        <h1>TicketOps Panel de tickets</h1>
+        <p class="header-introduction">Consulta y gestiona la atención de tickets.</p>
+      </div>
+      <div class="actor-panel">
+        <label for="actor-id">Actor_Id</label>
+        <input
+          id="actor-id"
+          name="actorId"
+          type="text"
+          autocomplete="off"
+          aria-describedby="actor-id-help actor-id-error"
+        >
+        <p id="actor-id-help" class="field-help">Identificador de la persona que realiza las operaciones.</p>
+        <p id="actor-id-error" class="field-error" role="alert" aria-live="assertive"></p>
+      </div>
+    </header>
+
+    <main id="panel-main">
+      <section
+        id="notification-region"
+        class="notification-region"
+        aria-labelledby="notification-title"
+      >
+        <h2 id="notification-title" class="visually-hidden">Mensajes del panel</h2>
+        <p id="panel-message" role="status" aria-live="polite" aria-atomic="true" tabindex="-1"></p>
+      </section>
+
+      <section id="summary-section" class="summary-section" aria-labelledby="summary-title">
+        <div class="section-heading">
+          <p class="eyebrow">Resumen</p>
+          <h2 id="summary-title">Indicadores</h2>
+        </div>
+        <div class="summary-grid">
+          <article class="summary-card">
+            <h3>Abiertos</h3>
+            <p id="open-count" class="summary-value" aria-live="polite" aria-label="Abiertos: 0">0</p>
+          </article>
+          <article class="summary-card">
+            <h3>Vencidos</h3>
+            <p id="overdue-count" class="summary-value" aria-live="polite" aria-label="Vencimientos: 0">0</p>
+          </article>
+          <article class="summary-card">
+            <h3>Resueltos</h3>
+            <p id="resolved-count" class="summary-value" aria-live="polite" aria-label="Resueltos: 0">0</p>
+          </article>
+        </div>
+      </section>
+
+      <div class="workspace-layout">
+        <section id="filter-section" class="filter-section" aria-labelledby="filter-title">
+          <h3 id="filter-title">Filtrar tickets</h3>
+          <label for="ticket-filter">Filtro activo</label>
+          <select id="ticket-filter" name="filter">
+            <option value="ALL">Todos</option>
+            <option value="OVERDUE">Solo vencidos</option>
+            <option value="NUEVO">Nuevo</option>
+            <option value="ASIGNADO">Asignado</option>
+            <option value="EN_PROGRESO">En progreso</option>
+            <option value="EN_ESPERA">En espera</option>
+            <option value="RESUELTO">Resuelto</option>
+            <option value="CERRADO">Cerrado</option>
+          </select>
+        </section>
+
+        <aside id="new-ticket-panel" class="new-ticket-panel" aria-labelledby="new-ticket-title">
+          <div class="section-heading">
+            <p class="eyebrow">Registro</p>
+            <h2 id="new-ticket-title">Nuevo ticket</h2>
+          </div>
+          <p id="new-ticket-introduction">Completa los campos obligatorios para registrar una solicitud.</p>
+          <form id="new-ticket-form" novalidate>
+            <div class="form-field">
+              <label for="ticket-title">Título <span aria-hidden="true">*</span></label>
+              <input
+                id="ticket-title"
+                name="title"
+                type="text"
+                maxlength="120"
+                required
+                aria-required="true"
+                aria-describedby="ticket-title-help ticket-title-error"
+              >
+              <p id="ticket-title-help" class="field-help">Máximo 120 caracteres.</p>
+              <p id="ticket-title-error" class="field-error" role="alert" aria-live="assertive"></p>
+            </div>
+
+            <div class="form-field">
+              <label for="ticket-description">Descripción <span aria-hidden="true">*</span></label>
+              <textarea
+                id="ticket-description"
+                name="description"
+                rows="5"
+                required
+                aria-required="true"
+                aria-describedby="ticket-description-error"
+              ></textarea>
+              <p id="ticket-description-error" class="field-error" role="alert" aria-live="assertive"></p>
+            </div>
+
+            <div class="form-field">
+              <label for="ticket-category">Categoría <span aria-hidden="true">*</span></label>
+              <select
+                id="ticket-category"
+                name="category"
+                required
+                aria-required="true"
+                aria-describedby="ticket-category-error"
+              >
+                <option value="">Selecciona una categoría</option>
+                <option value="INFRAESTRUCTURA">Infraestructura</option>
+                <option value="ACCESOS">Accesos</option>
+                <option value="APLICACIONES">Aplicaciones</option>
+                <option value="INSTALACIONES">Instalaciones</option>
+              </select>
+              <p id="ticket-category-error" class="field-error" role="alert" aria-live="assertive"></p>
+            </div>
+
+            <div class="form-field">
+              <label for="ticket-priority">Prioridad <span aria-hidden="true">*</span></label>
+              <select
+                id="ticket-priority"
+                name="priority"
+                required
+                aria-required="true"
+                aria-describedby="ticket-priority-error"
+              >
+                <option value="">Selecciona una prioridad</option>
+                <option value="CRITICA">Crítica</option>
+                <option value="ALTA">Alta</option>
+                <option value="MEDIA">Media</option>
+                <option value="BAJA">Baja</option>
+              </select>
+              <p id="ticket-priority-error" class="field-error" role="alert" aria-live="assertive"></p>
+            </div>
+
+            <div class="form-field">
+              <label for="ticket-requester">Solicitante <span aria-hidden="true">*</span></label>
+              <input
+                id="ticket-requester"
+                name="requester"
+                type="text"
+                required
+                aria-required="true"
+                aria-describedby="ticket-requester-error"
+              >
+              <p id="ticket-requester-error" class="field-error" role="alert" aria-live="assertive"></p>
+            </div>
+
+            <div id="new-ticket-form-errors" class="form-errors" role="alert" aria-live="assertive" aria-atomic="true"></div>
+            <button id="create-ticket-submit" type="submit">Crear ticket</button>
+          </form>
+        </aside>
+
+        <section id="ticket-workspace" class="ticket-workspace" aria-labelledby="ticket-workspace-title">
+          <div class="section-heading">
+            <p class="eyebrow">Seguimiento</p>
+            <h2 id="ticket-workspace-title" tabindex="-1">Tickets</h2>
+          </div>
+
+          <section
+            id="query-status-region"
+            class="query-status-region"
+            aria-labelledby="query-status-title"
+          >
+            <h3 id="query-status-title" class="visually-hidden">Estado de la consulta</h3>
+            <p id="query-loading-status" role="status"></p>
+            <p id="query-error-status" role="alert"></p>
+            <button id="query-retry" type="button" hidden>Reintentar consulta</button>
+          </section>
+
+          <section id="ticket-list-section" class="ticket-list-section" aria-labelledby="ticket-list-title">
+            <div class="list-heading">
+              <h3 id="ticket-list-title">Lista de tickets</h3>
+              <p id="ticket-list-summary" class="list-summary" aria-live="polite"></p>
+            </div>
+            <p id="ticket-empty-state" class="empty-state" role="status">No hay tickets para mostrar.</p>
+            <ul id="ticket-list" class="ticket-list" aria-label="Tickets disponibles"></ul>
+          </section>
+        </section>
+      </div>
+    </main>
+
+    <dialog id="ticket-dialog" aria-modal="true" aria-labelledby="dialog-title" aria-describedby="dialog-description" tabindex="-1">
+      <div class="dialog-content">
+        <header class="dialog-header">
+          <div>
+            <p class="eyebrow">Operación</p>
+            <h2 id="dialog-title">Detalle del ticket</h2>
+          </div>
+          <button id="dialog-close" type="button" aria-label="Cerrar diálogo">Cerrar</button>
+        </header>
+        <p id="dialog-description">Información y operaciones disponibles para el ticket seleccionado.</p>
+
+        <section id="ticket-detail-view" aria-labelledby="ticket-detail-title">
+          <h3 id="ticket-detail-title">Detalle del ticket</h3>
+          <dl id="ticket-detail-fields" class="ticket-detail-fields"></dl>
+        </section>
+
+        <form id="assignment-form" hidden novalidate>
+          <h3>Asignar ticket</h3>
+          <p id="assignment-description">Indica el identificador del responsable.</p>
+          <div class="form-field">
+            <label for="responsible-id">ID del responsable <span aria-hidden="true">*</span></label>
+            <input
+              id="responsible-id"
+              name="responsibleId"
+              type="text"
+              required
+              aria-required="true"
+              aria-describedby="responsible-id-error"
+            >
+            <p id="responsible-id-error" class="field-error" role="alert" aria-live="assertive"></p>
+          </div>
+          <div id="assignment-form-errors" class="form-errors" role="alert" aria-live="assertive" aria-atomic="true"></div>
+          <div class="dialog-actions">
+            <button id="assignment-cancel" type="button">Cancelar</button>
+            <button id="assignment-submit" type="submit">Asignar</button>
+          </div>
+        </form>
+
+        <form id="resolution-form" hidden novalidate>
+          <h3>Resolver ticket</h3>
+          <p id="resolution-description">Registra la nota de resolución para cerrar la atención.</p>
+          <div class="form-field">
+            <label for="resolution-note">Nota de resolución <span aria-hidden="true">*</span></label>
+            <textarea
+              id="resolution-note"
+              name="resolutionNote"
+              rows="5"
+              required
+              aria-required="true"
+              aria-describedby="resolution-note-error"
+            ></textarea>
+            <p id="resolution-note-error" class="field-error" role="alert" aria-live="assertive"></p>
+          </div>
+          <div id="resolution-form-errors" class="form-errors" role="alert" aria-live="assertive" aria-atomic="true"></div>
+          <div class="dialog-actions">
+            <button id="resolution-cancel" type="button">Cancelar</button>
+            <button id="resolution-submit" type="submit">Resolver</button>
+          </div>
+        </form>
+
+        <div id="dialog-actions" class="dialog-actions" aria-label="Acciones del ticket"></div>
+      </div>
+    </dialog>
+
+    <script src="./panel.js"></script>
+  </body>
+</html>

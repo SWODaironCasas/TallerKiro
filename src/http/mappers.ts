@@ -1,8 +1,10 @@
+import { calculateAllowedTransitions } from '../application/allowed-transitions.js';
 import type {
   EscalationRecord,
   StateHistoryEntry,
   SupervisorNotification,
   Ticket,
+  TicketStatus,
 } from '../domain/index.js';
 
 export interface HttpEscalation {
@@ -27,6 +29,21 @@ export interface HttpStateHistoryEntry {
   actorId: string;
 }
 
+export interface HttpAllowedTransition {
+  action:
+    | 'ASSIGN'
+    | 'START'
+    | 'RESUME'
+    | 'WAIT'
+    | 'RESOLVE'
+    | 'CLOSE'
+    | 'REOPEN';
+  method: 'PATCH';
+  href: string;
+  targetStatus: TicketStatus | null;
+  input: 'RESPONSIBLE_ID' | 'NONE' | 'RESOLUTION_NOTE';
+}
+
 export interface HttpTicket {
   id: string;
   title: string;
@@ -46,6 +63,7 @@ export interface HttpTicket {
   overdueCycle: number;
   escalations: HttpEscalation[];
   supervisorNotifications: HttpSupervisorNotification[];
+  allowedTransitions: HttpAllowedTransition[];
 }
 
 function toIsoUtc(value: Date): string {
@@ -112,6 +130,7 @@ export function mapTicketToResponse(ticket: Ticket): HttpTicket {
     supervisorNotifications: ticket.supervisorNotifications.map(
       mapSupervisorNotificationToResponse,
     ),
+    allowedTransitions: calculateAllowedTransitions(ticket),
   };
 }
 

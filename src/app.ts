@@ -5,6 +5,8 @@ import express, {
   type Response,
   type NextFunction,
 } from 'express';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { TicketService } from './application/ticket-service.js';
 import {
   InvalidJsonError,
@@ -164,6 +166,17 @@ export function createApp(dependencies?: AppDependencies): Express {
   });
 
   const application = express();
+  const panelRoot = resolve(
+    dirname(fileURLToPath(import.meta.url)),
+    '..',
+    'public',
+    'panel',
+  );
+
+  application.use(
+    '/panel',
+    express.static(panelRoot, { index: 'index.html' }),
+  );
 
   application.use(express.json());
   application.use(jsonErrorNormalizer);

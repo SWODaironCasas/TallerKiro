@@ -1,0 +1,759 @@
+{
+  "pbtResults": {
+    "11.1 Probar Property 1: indicadores correctos para cualquier colección": {
+      "status": "passed",
+      "lastRunTimestamp": 1795650598418
+    },
+    "11.2 Probar Property 2: body de creación exacto": {
+      "status": "passed",
+      "lastRunTimestamp": 1795650658868
+    },
+    "11.3 Probar Property 3: validación de textos y límites": {
+      "status": "passed",
+      "lastRunTimestamp": 1795650715320
+    },
+    "11.4 Probar Property 4: construcción de consultas y actor": {
+      "status": "passed",
+      "lastRunTimestamp": 1795651068315
+    },
+    "11.5 Probar Property 5: acciones derivadas de descriptors": {
+      "status": "passed",
+      "lastRunTimestamp": 1795651155296
+    },
+    "11.6 Probar Property 6: requests compatibles con el input del descriptor": {
+      "status": "passed",
+      "lastRunTimestamp": 1795651319517
+    },
+    "11.7 Probar Property 7: presentación temporal con señal textual": {
+      "status": "passed",
+      "lastRunTimestamp": 1795651457683
+    },
+    "11.8 Probar Property 8: fallback explícito del detalle": {
+      "status": "passed",
+      "lastRunTimestamp": 1795651538071
+    },
+    "11.9 Probar Property 9: renderizado literal seguro": {
+      "status": "passed",
+      "lastRunTimestamp": 1795651706622
+    },
+    "11.10 Probar Property 10: details y conservación del draft": {
+      "status": "passed",
+      "lastRunTimestamp": 1795651787836
+    },
+    "11.11 Probar Property 11: retry limitado y reproducible": {
+      "status": "passed",
+      "lastRunTimestamp": 1795651979359
+    },
+    "11.12 Probar Property 12: sólo la consulta activa reemplaza el estado": {
+      "status": "passed",
+      "lastRunTimestamp": 1795652370619
+    },
+    "11.13 Probar Property 13: `successful_query` precede la reactivación": {
+      "status": "passed",
+      "lastRunTimestamp": 1795652535911
+    }
+  },
+  "executionHistory": {
+    "1.1 Implementar el cálculo de descriptores desde las reglas existentes": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648454062
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648464105
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648845527
+      }
+    ],
+    "1.2 Extender `HttpTicket` y todos sus mapeos de respuesta": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648454327
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648851193
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649131945
+      }
+    ],
+    "1.3 Escribir pruebas unitarias del contrato de descriptores": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648454577
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649136997
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649269578
+      }
+    ],
+    "2.1 Montar los archivos estáticos con una raíz absoluta y segura": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648455028
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648464309
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648845834
+      }
+    ],
+    "3.1 Crear `public/panel/index.html`": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648455232
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648464542
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648846326
+      }
+    ],
+    "4.1 Crear `public/panel/panel.css`": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648455458
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648851434
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649132374
+      }
+    ],
+    "5.1 Implementar catálogos, estado, validación y utilidades seguras en `public/panel/panel.js`": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648455646
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648851652
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649132941
+      }
+    ],
+    "5.2 Implementar el adaptador HTTP same-origin y tokens de consulta": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648455890
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649137254
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649270370
+      }
+    ],
+    "6.1 Implementar Actor_Id con `sessionStorage` y el flujo «Nuevo ticket»": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648456189
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649274605
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649431723
+      }
+    ],
+    "7.1 Renderizar colección, filtros, vencimientos y detalle con datos remotos": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648456403
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649436124
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649566568
+      }
+    ],
+    "8.1 Renderizar acciones exclusivamente desde `allowedTransitions`": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648456613
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649571107
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649768265
+      }
+    ],
+    "8.2 Implementar asignación, cambios de estado y resolución": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648456861
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649772331
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649932033
+      }
+    ],
+    "9.1 Implementar `successful_query` y sincronización posterior a mutaciones": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648457134
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649936896
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795650156919
+      }
+    ],
+    "9.2 Implementar mapa de errores, estados anunciables y retry de mutaciones": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648457382
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795650161006
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795650349177
+      }
+    ],
+    "10.1 Integrar teclado, foco modal y estados ARIA": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648457526
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795650354003
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795650533140
+      },
+      {
+        "executionId": "d8451e8b-628c-4839-af5f-dc8f2c73a46a",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795654838791
+      },
+      {
+        "executionId": "d8451e8b-628c-4839-af5f-dc8f2c73a46a",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795655651086
+      }
+    ],
+    "10.2 Ajustar layout móvil, contraste y movimiento reducido": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648457663
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795650354232
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795650533851
+      },
+      {
+        "executionId": "d8451e8b-628c-4839-af5f-dc8f2c73a46a",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795654840463
+      }
+    ],
+    "11.1 Probar Property 1: indicadores correctos para cualquier colección": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648457812
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795650539113
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795650610140
+      }
+    ],
+    "11.2 Probar Property 2: body de creación exacto": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648458112
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795650614261
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795650670973
+      }
+    ],
+    "11.3 Probar Property 3: validación de textos y límites": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648458280
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795650675111
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795650727842
+      }
+    ],
+    "11.4 Probar Property 4: construcción de consultas y actor": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648458465
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795650732912
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795651094996
+      }
+    ],
+    "11.5 Probar Property 5: acciones derivadas de descriptors": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648458675
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795651099260
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795651172381
+      }
+    ],
+    "11.6 Probar Property 6: requests compatibles con el input del descriptor": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648458847
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795651177194
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795651329135
+      }
+    ],
+    "11.7 Probar Property 7: presentación temporal con señal textual": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648459121
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795651333881
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795651466115
+      }
+    ],
+    "11.8 Probar Property 8: fallback explícito del detalle": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648459299
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795651472620
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795651551699
+      }
+    ],
+    "11.9 Probar Property 9: renderizado literal seguro": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648459518
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795651557589
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795651724484
+      }
+    ],
+    "11.10 Probar Property 10: details y conservación del draft": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648459694
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795651729280
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795651911673
+      }
+    ],
+    "11.11 Probar Property 11: retry limitado y reproducible": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648459812
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795651921786
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795651991395
+      }
+    ],
+    "11.12 Probar Property 12: sólo la consulta activa reemplaza el estado": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648459987
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795651997456
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795652388701
+      }
+    ],
+    "11.13 Probar Property 13: `successful_query` precede la reactivación": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648460122
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795652393485
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795652552846
+      }
+    ],
+    "12.1 Actualizar pruebas HTTP del contrato y del montaje estático": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648460223
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795652558179
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795652658862
+      }
+    ],
+    "12.2 Añadir pruebas de regresión de errores y contrato de API": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648460344
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795652663760
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795652958725
+      }
+    ],
+    "13.1 Configurar un runner de navegador sólo para desarrollo": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648460541
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795652664048
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795652960077
+      }
+    ],
+    "13.2 Cubrir flujos funcionales, errores y sincronización en navegador": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648460800
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795652969171
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795653280419
+      }
+    ],
+    "13.3 Auditar seguridad, accesibilidad y responsive en navegador": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648461113
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795653285352
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795653750483
+      }
+    ],
+    "14. Punto de control final: integrar y verificar el alcance completo": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648461297
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795653755963
+      },
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795654402774
+      }
+    ],
+    "2. Servir el panel bajo `/panel/` desde el mismo origen": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648845992
+      }
+    ],
+    "3. Construir la estructura semántica del documento": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795648846518
+      }
+    ],
+    "4. Crear el lenguaje visual responsive y accesible": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649132627
+      }
+    ],
+    "1. Ampliar el contrato HTTP y calcular `allowedTransitions` en el servidor": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649269870
+      }
+    ],
+    "5. Implementar la base segura del cliente y el adaptador HTTP": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649270628
+      }
+    ],
+    "6. Implementar actor y creación de tickets": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649432000
+      }
+    ],
+    "7. Implementar consulta, lista, indicadores y detalle": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649566923
+      }
+    ],
+    "8. Implementar acciones derivadas y diálogos operativos": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795649932600
+      }
+    ],
+    "9. Implementar errores, reconciliación y retry limitado": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795650349377
+      }
+    ],
+    "10. Completar accesibilidad y comportamiento responsive": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795650534094
+      }
+    ],
+    "11. Añadir pruebas property-based para las propiedades de corrección": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795652553315
+      }
+    ],
+    "12. Completar pruebas unitarias e integración HTTP": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795652959016
+      }
+    ],
+    "13. Añadir pruebas de navegador y auditorías del panel": [
+      {
+        "executionId": "299222b7-c326-442e-87a7-3e826fb7d37b",
+        "chatSessionId": "sess_28a005a5-ac6b-477b-bde8-bbc62b1c8955",
+        "timestamp": 1795653750779
+      }
+    ]
+  }
+}

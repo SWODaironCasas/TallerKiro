@@ -1,6 +1,6 @@
 # Glosario de Tickets - TallerKiro
 
-Este glosario define los términos clave del dominio de tickets de soporte en el sistema TallerKiro. Se aplica cuando se trabajan con archivos que contienen lógica de dominio, reglas de negocio o documentación relacionada con tickets.
+Este steering define los términos clave del dominio de tickets de soporte en el sistema TallerKiro. Se aplica manualmente cuando se escribe `#glosario-tickets` en el chat.
 
 ## Términos del dominio
 
@@ -152,53 +152,3 @@ graph TD
 4. **Regla de ciclos de escalamiento**: Los tickets vencidos escalan a través de ciclos predefinidos con notificaciones incrementales.
 
 5. **Regla de comunicación**: Todos los mensajes a usuarios deben ser breves, en español neutro y sin tecnicismos innecesarios.
-
-## Implementación en código
-
-Cuando implementes estos conceptos en el código, usa estos nombres consistentemente:
-
-```typescript
-// Enums y tipos
-enum TicketPriority {
-  CRITICA = 'CRITICA',
-  ALTA = 'ALTA', 
-  MEDIA = 'MEDIA',
-  BAJA = 'BAJA'
-}
-
-enum TicketStatus {
-  NUEVO = 'NUEVO',
-  ASIGNADO = 'ASIGNADO',
-  EN_PROGRESO = 'EN_PROGRESO',
-  EN_ESPERA = 'EN_ESPERA',  // SLA se pausa aquí
-  RESUELTO = 'RESUELTO',
-  CERRADO = 'CERRADO'
-}
-
-enum EscalationCycle {
-  CYCLE_1 = 'CYCLE_1',
-  CYCLE_2 = 'CYCLE_2', 
-  CYCLE_3 = 'CYCLE_3'
-}
-
-// Interfaces
-interface SLA {
-  responseTime: number;  // minutos
-  resolutionTime: number; // minutos
-  isPaused: boolean;     // true cuando ticket está EN_ESPERA
-}
-
-interface Ticket {
-  id: string;
-  title: string;
-  description: string;
-  priority: TicketPriority;
-  status: TicketStatus;
-  sla: SLA;
-  escalationCycle?: EscalationCycle;
-  isOverdue: boolean;
-  // ... otros campos
-}
-```
-
-Este glosario debe ser la fuente de verdad para todos los términos del dominio de tickets en el sistema TallerKiro.
